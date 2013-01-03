@@ -2,5 +2,5 @@ dif(sin(3.14*x))
 3.14*cos(x)
 sin(x)
 dif(x*x)
-2*x
+2/x
 x/5.0-4.0*x

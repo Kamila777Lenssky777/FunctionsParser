@@ -27,7 +27,7 @@ public class Division implements IEvaluation {
         Double res = null;
         Double op2 = null;
         op2 = operand2.evaluate(num);
-        if (op2 - 0 < 0.0001) {
+        if (Math.abs(op2 - 0.0) < 0.00001) {
             throw new EvaluationException("division by zero");
         } else {
             res = operand1.evaluate(num) / op2;
