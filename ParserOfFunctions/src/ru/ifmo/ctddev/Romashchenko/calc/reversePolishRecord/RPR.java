@@ -18,7 +18,7 @@ public class RPR {
 
     public enum Priority {
 
-        ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN;
+        LIT, ADD, MUL, LPAR, RPAR, FUN, DIF;
     }
 
     public RPR(List<String> list) throws ParserException, EvaluationException {
@@ -38,17 +38,17 @@ public class RPR {
         try {
             for (String elementOfList : list) {
                 Priority priority = getPriority(elementOfList);
-                if (priority == Priority.ONE) {
+                if (priority == Priority.LIT) {
                     outputline.push(elementOfList);
-                } else if (priority == Priority.FOUR) {
+                } else if (priority == Priority.LPAR) {
                     stack.push(elementOfList);
-                } else if (priority == Priority.FIVE) {
-                    while (!stack.isEmpty() && getPriority(stack.peek()) != Priority.FOUR) {
+                } else if (priority == Priority.RPAR) {
+                    while (!stack.isEmpty() && getPriority(stack.peek()) != Priority.LPAR) {
                         outputline.push(stack.pop());
                     }
                     stack.pop();
                 } else {
-                    while (!stack.isEmpty() && priority.compareTo(getPriority(stack.peek())) <= 0 && !getPriority(stack.peek()).equals(Priority.FOUR)) {
+                    while (!stack.isEmpty() && priority.compareTo(getPriority(stack.peek())) <= 0 && !getPriority(stack.peek()).equals(Priority.LPAR)) {
                         outputline.push(stack.pop());
                     }
                     stack.push(elementOfList);
@@ -69,19 +69,19 @@ public class RPR {
     //defines priority of the token
     private Priority getPriority(String ex) {
         if (ex.equals("*") || ex.equals("/")) {
-            return Priority.THREE;
+            return Priority.MUL;
         } else if (ex.equals("-") || ex.equals("+")) {
-            return Priority.TWO;
+            return Priority.ADD;
         } else if (ex.equals("(")) {
-            return Priority.FOUR;
+            return Priority.LPAR;
         } else if (ex.equals(")")) {
-            return Priority.FIVE;
+            return Priority.RPAR;
         } else if (ex.equals("cos") || ex.equals("sin")) {
-            return Priority.SIX;
+            return Priority.FUN;
         } else if (ex.equals("dif")) {
-            return Priority.SEVEN;
+            return Priority.DIF;
         } else {
-            return Priority.ONE;
+            return Priority.LIT;
         }
     }
 
@@ -101,9 +101,9 @@ public class RPR {
                 r = new Sin(stack.pop());
             } else if (Cos.is(s)) {
                 r = new Cos(stack.pop());
-            }else  if (s.contains("dif")) {
+            } else if (s.contains("dif")) {
                 r = stack.pop().derivative();
-            }  else {
+            } else {
                 IEvaluation op1 = null;
                 IEvaluation op2 = null;
                 try {

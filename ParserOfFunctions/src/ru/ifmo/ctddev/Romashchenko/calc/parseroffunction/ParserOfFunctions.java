@@ -56,7 +56,7 @@ public class ParserOfFunctions {
 
     //splits input string into tokens
     public static List<String> getTokens(String str) {
-        String regexp = "\\d+.\\d+|\\+|\\-|\\/|\\*|\\(|\\)|\\w+";
+        String regexp = "\\d+(\\.\\d+)?|\\+|\\-|\\/|\\*|\\(|\\)|\\w+";
         Pattern p = Pattern.compile(regexp);
         Matcher m = p.matcher(str);
 
